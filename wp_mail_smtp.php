@@ -48,7 +48,8 @@ $wpms_options = array (
 	'smtp_ssl' => 'none',
 	'smtp_auth' => false,
 	'smtp_user' => '',
-	'smtp_pass' => ''
+	'smtp_pass' => '',
+	'smtp_custom_header' => ''
 );
 
 
@@ -146,7 +147,7 @@ function phpmailer_init_smtp($phpmailer) {
 		// You can add your own options here, see the phpmailer documentation for more info:
 		// http://phpmailer.sourceforge.net/docs/
 		
-		
+		$phpmailer->AddCustomHeader(get_option('smtp_custom_header'));
 		
 		// STOP adding options here.
 		
@@ -301,6 +302,12 @@ function wp_mail_smtp_options_page() {
 <th scope="row"><label for="smtp_pass"><?php _e('Password', 'wp_mail_smtp'); ?></label></th>
 <td><input name="smtp_pass" type="text" id="smtp_pass" value="<?php print(get_option('smtp_pass')); ?>" size="40" class="code" /></td>
 </tr>
+<!-- Custom mail header start -->
+<tr valign="top">
+<th scope="row"><label for="smtp_pass"><?php _e('Custom mail header', 'wp_mail_smtp'); ?></label></th>
+<td><input name="smtp_custom_header" type="text" id="smtp_custom_header" value="<?php print(get_option('smtp_custom_header')); ?>" size="40" class="code" /></td>
+</tr>
+<!-- Custom mail header end -->
 </table>
 
 <p class="submit"><input type="submit" name="submit" id="submit" class="button-primary" value="<?php _e('Save Changes'); ?>" /></p>
@@ -454,3 +461,4 @@ add_filter('wp_mail_from_name','wp_mail_smtp_mail_from_name');
 load_plugin_textdomain('wp_mail_smtp', false, dirname(plugin_basename(__FILE__)) . '/langs');
 
 ?>
+
